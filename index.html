@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dla Ciebie</title>
+<style>
+  :root{
+    --pink:#ff7eb6; --hot:#ff2e93; --lav:#c9a7ff; --mint:#9bf6d0; --yellow:#fff27a; --ink:#2a1a3d; --sky:#a8e6ff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;color:var(--ink);
+    background:linear-gradient(135deg,#ffd1e8,#e0c8ff,#c8f7ff,#ffe3f1);background-size:300% 300%;
+    animation:bg 14s ease infinite;overflow-x:hidden;
+  }
+  @keyframes bg{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+  .float{position:fixed;pointer-events:none;z-index:0;animation:fly linear infinite;opacity:.8}
+  @keyframes fly{0%{transform:translateY(110vh) rotate(0)}100%{transform:translateY(-20vh) rotate(360deg)}}
+  main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 18px 90px}
+  section{margin:44px 0}
+  h1{font-size:clamp(2.4rem,9vw,4.2rem);line-height:1.05;margin:.3em 0;
+     background:linear-gradient(90deg,var(--hot),#8a4bff,#00b7d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{font-size:clamp(1.5rem,5vw,2.1rem);margin:0 0 .5em;text-align:center}
+  .hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .hero p{font-size:1.15rem;max-width:480px}
+  .big{font-size:6rem;cursor:pointer;user-select:none;display:inline-block;animation:bounce 1.3s ease-in-out infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+  .scroll{margin-top:24px;font-size:.95rem;opacity:.7;animation:bounce 1.8s infinite}
+  .card{background:rgba(255,255,255,.8);backdrop-filter:blur(6px);border:3px dashed var(--hot);border-radius:28px;padding:24px 20px;box-shadow:7px 7px 0 var(--lav)}
+  .card p{line-height:1.6;font-size:1.05rem;margin:.6em 0}
+  .sticker{display:inline-block;background:var(--yellow);padding:4px 12px;border-radius:10px;transform:rotate(-3deg);font-weight:bold;margin-bottom:8px}
+
+  /* licznik */
+  .counter{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .counter div{background:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px 14px;min-width:84px;box-shadow:4px 4px 0 var(--ink)}
+  .counter b{display:block;font-size:2rem}
+  .counter span{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+
+  /* timeline */
+  .tl{position:relative;padding-left:26px;border-left:4px dotted var(--hot);margin-left:10px}
+  .tl .item{position:relative;background:#fff;border-radius:18px;padding:14px 16px;margin:0 0 18px;box-shadow:4px 4px 0 var(--sky)}
+  .tl .item::before{content:"🐾";position:absolute;left:-44px;top:10px;font-size:1.4rem}
+  .tl small{color:var(--hot);font-weight:bold}
+  .tl p{margin:.3em 0 0}
+
+  /* karty do odwracania */
+  .flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .flip{perspective:800px;height:150px;cursor:pointer}
+  .flip .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+  .flip.on .in{transform:rotateY(180deg)}
+  .flip .f,.flip .b{position:absolute;inset:0;border-radius:20px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
+  .flip .f{background:var(--pink);font-size:2.6rem}
+  .flip .b{background:#fff;transform:rotateY(180deg);font-size:1rem;line-height:1.35}
+  .flip:nth-child(2n) .f{background:var(--mint)}
+  .flip:nth-child(3n) .f{background:var(--lav)}
+  .flip:nth-child(4n) .f{background:var(--yellow)}
+
+  /* kupony */
+  .coupons{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .coupon{background:#fff;border:3px dashed var(--ink);border-radius:16px;padding:14px;text-align:center;cursor:pointer;transition:transform .2s,opacity .3s}
+  .coupon:hover{transform:rotate(-2deg) scale(1.03)}
+  .coupon.used{opacity:.5;text-decoration:line-through}
+  .coupon .e{font-size:2.2rem}
+  .coupon small{display:block;opacity:.7;margin-top:6px}
+
+  /* zwierzaki */
+  .zoo{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+  .pet{font-size:3.6rem;cursor:pointer;user-select:none;transition:transform .15s}
+  .pet:hover{transform:scale(1.2) rotate(-8deg)}
+  .pet:active{transform:scale(1.5) rotate(12deg)}
+  .score{text-align:center;margin-top:10px;font-size:1.1rem}
+
+  /* quiz */
+  .quiz{min-height:260px;position:relative;text-align:center}
+  .btns{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:18px;min-height:80px}
+  button{font-family:inherit;font-size:1.3rem;font-weight:bold;border:0;border-radius:999px;padding:14px 36px;cursor:pointer;transition:transform .15s}
+  #yes{background:var(--hot);color:#fff;box-shadow:0 5px 0 #b3005f}
+  #yes:hover{transform:scale(1.07)}
+  #yes:active{transform:translateY(4px);box-shadow:0 1px 0 #b3005f}
+  #no{background:#fff;color:var(--ink);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink)}
+  .status{margin-top:16px;font-size:1.05rem;min-height:3.4em}
+  .answer{display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:6px 14px;border:2px solid var(--ink);font-size:.95rem}
+  .answer .box{width:22px;height:22px;border:3px solid var(--ink);border-radius:6px;display:inline-block}
+
+  .heart{position:fixed;pointer-events:none;z-index:9;font-size:1.6rem;animation:pop 1s ease-out forwards}
+  @keyframes pop{0%{transform:translateY(0) scale(.5);opacity:1}100%{transform:translateY(-130px) scale(1.6);opacity:0}}
+  .shake{animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .tiny{text-align:center;font-size:.85rem;opacity:.65}
+  .ps{font-family:"Comic Sans MS","Chalkboard SE",cursive;transform:rotate(-1deg)}
+</style>
+</head>
+<body>
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="big" id="hero-pet">🐱</div>
+    <h1>Hej, <span class="name">Kochanie</span></h1>
+    <p>Zrobiłem Ci stronę. Wiem, że mogłem kupić kwiaty, ale kwiaty nie mają kapibary i przycisku, który ucieka.</p>
+    <div class="scroll">zjedź niżej ↓</div>
+  </section>
+
+  <!-- LICZNIK -->
+  <section>
+    <div class="card">
+      <h2>Tyle już razem jesteśmy</h2>
+      <div class="counter" id="counter"></div>
+      <p style="text-align:center">Od 20 października. Niby niedawno, a ja już nie pamiętam, jak było bez Ciebie.</p>
+    </div>
+  </section>
+
+  <!-- LIST -->
+  <section>
+    <div class="card">
+      <span class="sticker">list. trochę dłuższy</span>
+      <p>Nie jestem dobry w pisaniu takich rzeczy, więc będzie po mojemu.</p>
+      <p>Przy Tobie jest mi po prostu spokojnie. Mogę gadać głupoty, milczeć albo oglądać po raz setny to samo i dalej jest dobrze. Nikt inny tak na mnie nie działa.</p>
+      <p>Lubię, jak się śmiejesz z moich żartów, nawet tych słabych. Szczególnie tych słabych. Lubię, jak coś mi opowiadasz i kręcisz się przy tym jak bąk.</p>
+      <p>No i zostawiłaś u mnie BMO. Tego pluszaka. Uwielbiam go. I tak, co noc go przytulam. Nie śmiej się. Pachnie Tobą i przy nim zasypia mi się o wiele lepiej. Jest pod specjalną opieką, więc spokojnie, nic mu nie grozi.</p>
+      <p>Dziękuję, że jesteś. Serio.</p>
+      <p class="ps">PS. Tak, wiem, że to cringe. Nie obchodzi mnie to.</p>
+    </div>
+  </section>
+
+  <!-- ZWIERZAKI -->
+  <section>
+    <h2>Zwierzaki dyżurne</h2>
+    <div class="zoo" id="zoo"></div>
+    <div class="score">Pogłaskane: <b id="score">0</b></div>
+    <p class="tiny" id="scoremsg">kliknij je, nie gryzą</p>
+  </section>
+
+  <!-- NASZA HISTORIA -->
+  <section>
+    <div class="card">
+      <h2>Nasza mała historia</h2>
+      <div class="tl">
+        <div class="item"><small>Na początku</small><p>Ja jeszcze nie wiedziałem, że wpadnę po uszy. Ty chyba już trochę tak.</p></div>
+        <div class="item"><small>Pierwsze spotkanie</small><p>Byłem zestresowany jak przed egzaminem. Udawałem, że nie.</p></div>
+        <div class="item"><small>Pierwszy raz, jak wiedziałem, że to coś poważnego</small><p>Wtedy zrozumiałem, że przepadłem. Do dziś mi się to podoba.</p></div>
+        <div class="item"><small>Teraz</small><p>Ty, ja, mnóstwo głupich żartów i plany na jeszcze więcej.</p></div>
+      </div>
+      <p class="tiny">(tu możesz sobie dopisać wszystko, co wiemy tylko my)</p>
+    </div>
+  </section>
+
+  <!-- KARTY -->
+  <section>
+    <h2>Rzeczy, które w Tobie uwielbiam</h2>
+    <p class="tiny" style="margin-bottom:12px">kliknij kartę, żeby ją odwrócić</p>
+    <div class="flips" id="flips"></div>
+  </section>
+
+  <!-- KUPONY -->
+  <section>
+    <div class="card">
+      <h2>Kupony do wykorzystania</h2>
+      <p style="text-align:center">Ważne bezterminowo. Kliknij, żeby „zrealizować" (potem mi pokaż).</p>
+      <div class="coupons" id="coupons"></div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section>
+    <div class="card quiz" id="quiz">
+      <h2>Ostatnie pytanie</h2>
+      <p style="font-size:1.3rem"><b>Wiesz, że jesteś moją ukochaną dziewczyną?</b></p>
+      <div class="btns">
+        <button id="yes">TAK</button>
+        <button id="no">Nie</button>
+      </div>
+      <div class="status" id="status"></div>
+      <div class="answer">Zaznaczona odpowiedź: <span class="box"></span> <span id="ans">brak</span></div>
+    </div>
+  </section>
+
+  <p class="tiny">Zrobione w nocy, z miłości i bez żadnego frameworka 🐾</p>
+</main>
+
+<script>
+  /* ====== USTAWIENIA: zmień tutaj ====== */
+  const IMIE = 'Kochanie';
+  const DATA_START = '2026-10-20'; // od kiedy jesteście razem (RRRR-MM-DD)
+  const KARTY = [
+    ['😂','Śmiejesz się tak, że nie da się nie śmiać razem z Tobą.'],
+    ['🫶','Jesteś mega troskliwa, nawet jak udajesz, że nie.'],
+    ['🧸','Że zostawiłaś mi BMO, który teraz jest moim nocnym towarzyszem.'],
+    ['🎧','Masz świetny gust muzyczny (poza kilkoma wyjątkami).'],
+    ['😴','Jak śpisz, to wyglądasz jak mały kotek.'],
+    ['✨','Po prostu jesteś sobą i to mi wystarcza.']
+  ];
+  const KUPONY = [
+    ['🍦','Lody na każde życzenie','bez gadania'],
+    ['🎬','Wieczór filmowy – Ty wybierasz','nawet jeśli to znowu to samo'],
+    ['🤗','Przytulas na żądanie','24/7'],
+    ['🍳','Śniadanie do łóżka','ja robię, ja sprzątam'],
+    ['💆','Masaż pleców','5 minut, negocjowalne do 10'],
+    ['🙊','Wygrana w kłótni','raz, ale się liczy']
+  ];
+  /* ===================================== */
+
+  document.querySelectorAll('.name').forEach(e=>e.textContent=IMIE);
+
+  /* tło ze zwierzakami */
+  const pets=['🐱','🐶','🐰','🦊','🐸','🐼','🦆','🐧','🦫','🐹','🐨','🦄','🐙','🐝','🐻','🐥'];
+  for(let i=0;i<22;i++){
+    const s=document.createElement('div');
+    s.className='float';
+    s.textContent=pets[Math.floor(Math.random()*pets.length)];
+    s.style.left=Math.random()*100+'vw';
+    s.style.fontSize=(1.5+Math.random()*2)+'rem';
+    s.style.animationDuration=(12+Math.random()*16)+'s';
+    s.style.animationDelay=(-Math.random()*25)+'s';
+    document.body.appendChild(s);
+  }
+
+  function hearts(x,y,n=6){
+    const set=['💖','💕','✨','💘','🫶','🌸'];
+    for(let i=0;i<n;i++){
+      const h=document.createElement('div');
+      h.className='heart';
+      h.textContent=set[Math.floor(Math.random()*set.length)];
+      h.style.left=(x+Math.random()*90-45)+'px';
+      h.style.top=(y+Math.random()*30-15)+'px';
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),1000);
+    }
+  }
+  document.getElementById('hero-pet').addEventListener('click',e=>{
+    hearts(e.clientX,e.clientY,8);
+    const list=['🐱','🐶','🐰','🦊','🐸','🐼','🦫','🐧'];
+    e.target.textContent=list[Math.floor(Math.random()*list.length)];
+  });
+
+  /* licznik */
+  function tick(){
+    const start=new Date(DATA_START+'T00:00:00');
+    let ms=Date.now()-start.getTime(); if(ms<0)ms=0;
+    const d=Math.floor(ms/864e5), h=Math.floor(ms/36e5)%24, m=Math.floor(ms/6e4)%60, s=Math.floor(ms/1e3)%60;
+    document.getElementById('counter').innerHTML=
+      [[d,'dni'],[h,'godzin'],[m,'minut'],[s,'sekund']].map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
+  }
+  tick(); setInterval(tick,1000);
+
+  /* zwierzaki z licznikiem */
+  const zoo=document.getElementById('zoo');
+  const zooPets=['🐱','🦫','🐸','🦊','🐰','🐧','🐼','🦆'];
+  let score=0;
+  const msgs=[
+    [5,'no, widzę, że lubisz zwierzaki'],
+    [15,'zwierzaki Cię już znają'],
+    [30,'dość, bo zaczną domagać się jedzenia'],
+    [50,'oficjalnie zostajesz królową zoo']
+  ];
+  zooPets.forEach(p=>{
+    const el=document.createElement('span');
+    el.className='pet'; el.textContent=p;
+    el.onclick=e=>{
+      score++;
+      document.getElementById('score').textContent=score;
+      hearts(e.clientX,e.clientY,4);
+      for(const [n,t] of msgs){ if(score>=n) document.getElementById('scoremsg').textContent=t; }
+    };
+    zoo.appendChild(el);
+  });
+
+  /* karty */
+  const fl=document.getElementById('flips');
+  KARTY.forEach(([e,t])=>{
+    const d=document.createElement('div');
+    d.className='flip';
+    d.innerHTML=`<div class="in"><div class="f">${e}</div><div class="b">${t}</div></div>`;
+    d.onclick=()=>d.classList.toggle('on');
+    fl.appendChild(d);
+  });
+
+  /* kupony */
+  const cp=document.getElementById('coupons');
+  KUPONY.forEach(([e,t,s])=>{
+    const d=document.createElement('div');
+    d.className='coupon';
+    d.innerHTML=`<div class="e">${e}</div><b>${t}</b><small>${s}</small>`;
+    d.onclick=ev=>{ d.classList.add('used'); hearts(ev.clientX,ev.clientY,5); };
+    cp.appendChild(d);
+  });
+
+  /* quiz */
+  const yes=document.getElementById('yes'), no=document.getElementById('no');
+  const status=document.getElementById('status'), ans=document.getElementById('ans');
+  const yesLines=[
+    'Kliknęłaś TAK, ale system tego nie zaliczył.',
+    'Hmm, ciekawe. Spróbuj jeszcze raz.',
+    'Odpowiedź TAK nie została zapisana. Nie pytaj dlaczego.',
+    'Wiem, że chciałaś dobrze. Dalej nie zaliczone.',
+    'Nadal nic. Strona ma swoje zdanie.',
+    'Dobra, nie musisz zaznaczać. Ja i tak wiem, że tak.'
+  ];
+  let yi=0;
+  yes.addEventListener('click',e=>{
+    status.textContent=yesLines[Math.min(yi,yesLines.length-1)]; yi++;
+    ans.textContent='brak';
+    yes.classList.remove('shake'); void yes.offsetWidth; yes.classList.add('shake');
+    hearts(e.clientX,e.clientY,5);
+    /* TAK nigdy się nie zaznacza */
+  });
+
+  const noLines=['Nie?','Serio?','Pomyśl jeszcze','Przycisk zepsuty','Nie da się','Spróbuj mnie złapać'];
+  let ni=0;
+  function dodge(e){
+    if(e) e.preventDefault();
+    const a=document.getElementById('quiz').getBoundingClientRect();
+    const bw=no.offsetWidth,bh=no.offsetHeight;
+    const minX=Math.max(10,a.left+10), maxX=Math.max(minX+1,Math.min(window.innerWidth,a.right)-bw-10);
+    const x=minX+Math.random()*(maxX-minX);
+    const y=Math.max(10,a.top+130+Math.random()*Math.max(1,a.height-bh-170));
+    no.style.position='fixed'; no.style.left=x+'px'; no.style.top=y+'px';
+    no.textContent=noLines[ni%noLines.length]; ni++;
+    yes.style.fontSize=(1.3+Math.min(ni,10)*0.08)+'rem';
+    status.textContent='Przycisk „Nie" uciekł. Chyba się Ciebie boi.';
+  }
+  no.addEventListener('mouseenter',dodge);
+  no.addEventListener('touchstart',dodge,{passive:false});
+  no.addEventListener('click',dodge);
+</script>
+</body>
+</html>
